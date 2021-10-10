@@ -4,7 +4,7 @@
 #include <cassert>       // assert
 #include <cmath>
 
-#include "cache.hpp"
+#include "../include/cache.hpp"
 
 int main() {
 
