@@ -1,8 +1,6 @@
-
 cmake_minimum_required (VERSION 3.11)
+project (2QCache LANGUAGES CXX)
 
-project (2QCache VERSION 0.1 LANGUAGES CXX)
+message(STATUS "OS: ${CMAKE_SYSTEM_NAME}")
 
-add_executable (cache)
-
-target_sources (cache PRIVATE main.cpp)
+add_executable (out main.cpp)
