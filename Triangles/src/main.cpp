@@ -1,5 +1,5 @@
 #include <iostream>
-#include "triangles.hpp"
+#include "../include/triangles.hpp"
 
 int main() {
 

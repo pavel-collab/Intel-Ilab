@@ -30,17 +30,17 @@ public:
 };
 
 template <typename type, typename Point>
-struct Vector {
+struct Sigment {
 
 private:
     Point begin_, end_;
     type  AbcVec;
 public:
 
-    Vector(Point begin_pt, Point end_pt) :
+    Sigment(Point begin_pt, Point end_pt) :
         begin_(begin_pt),
         end_ (end_pt) {}
-    ~Vector() {}
+    ~Sigment() {}
 
     Point GetBegin() { return begin_; }
     Point GetEnd()   { return end_; }
@@ -71,18 +71,18 @@ public:
     ~Triangle() {}
 
     double GetP() {
-        Vector<type, Point> a(A_, B_);
-        Vector<type, Point> b(B_, C_);
-        Vector<type, Point> c(C_, A_);
+        Sigment<type, Point> a(A_, B_);
+        Sigment<type, Point> b(B_, C_);
+        Sigment<type, Point> c(C_, A_);
 
         return a.GetAbcVec() + b.GetAbcVec() + c.GetAbcVec();
     }
 
     double GetSquare() {
 
-        Vector<type, Point> a(A_, B_);
-        Vector<type, Point> b(B_, C_);
-        Vector<type, Point> c(C_, A_);
+        Sigment<type, Point> a(A_, B_);
+        Sigment<type, Point> b(B_, C_);
+        Sigment<type, Point> c(C_, A_);
 
         double p = GetP() / 2;
         return sqrt(p * (p - a.GetAbcVec()) * (p - b.GetAbcVec()) * (p - c.GetAbcVec()));

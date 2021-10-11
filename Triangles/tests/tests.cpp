@@ -1,11 +1,27 @@
+#define CATCH_CONFIG_MAIN
 #include <iostream>
-#include <gtest/gtest.h>
 
-#include "../triangles.hpp"
+#include "catch.hpp"
+#include "../include/triangles.hpp"
 
-TEST(Triangles, PointEqual) {
-    Point<int> p1(1, 2, 1);
-    Point<int> p2(1, 2, 1);
+TEST_CASE("Squares are computed", "[Square]")
+{
+    Point<int> A(0, 0, 0);
+    Point<int> B(3, 0, 0);
+    Point<int> C(0, 4, 0);
 
-    ASSERT_EQ(p1, p2);
+    Triangle<int, Point<int>> t(A, B, C);
+
+    REQUIRE(t.GetSquare() == 6);
+}
+
+TEST_CASE("Perimeter is computed", "[Perimeter]")
+{
+    Point<int> A(0, 0, 0);
+    Point<int> B(3, 0, 0);
+    Point<int> C(0, 4, 0);
+
+    Triangle<int, Point<int>> t(A, B, C);
+
+    REQUIRE(t.GetP() == 12);
 }
