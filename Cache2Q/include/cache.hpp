@@ -132,11 +132,11 @@ int Cache2Q <Page>::CacheIn(Page page) {
     Map_Iter base = CacheHit(page);
 
     if (base == Map_.end()) {
-        printf("No hit\n");
+        // printf("No hit\n");
         if (In_.IsQueueFull()) {
-            printf("In is full\n");
+            // printf("In is full\n");
             if (Out_.IsQueueFull()) {
-                printf("Out is full\n");
+                // printf("Out is full\n");
                 DeletePage(&Out_, Map_.find(Out_.List.back().page_));
             }
             In_.List.back().ChangeQueueType(OUT);
@@ -162,7 +162,7 @@ int Cache2Q <Page>::CacheIn(Page page) {
         return RESULT_NO_HIT;
     }
 
-    printf("hit!!!\n");
+    // printf("hit!!!\n");
     switch (base->second->queue_t_) {
         case IN: {
             return RESULT_HIT_IN; 
@@ -170,7 +170,7 @@ int Cache2Q <Page>::CacheIn(Page page) {
         }
         case OUT: {
             if (Hot_.IsQueueFull()) {
-                printf("hot is full\n");
+                // printf("hot is full\n");
                 DeletePage(&Hot_, Map_.find(Hot_.List.back().page_));
             }
             List_Iter lstit = base->second;
