@@ -1,13 +1,13 @@
 #include <iostream>
 #include <cassert>
-#include "cache.hpp"
+#include "../include/cache.hpp"
 
-unsigned numTests = 8;
+unsigned numTests = 9;
 
 int main() {
     FILE* ftest;
     const char* nameTests[numTests] = {"utest1.txt", "utest2.txt", "utest3.txt", "utest4.txt", "utest5.txt",
-                                       "utest6.txt", "utest7.txt", "utest8.txt"};
+                                       "utest6.txt", "utest7.txt", "utest8.txt", "utest9.txt"};
 
 
     for (int i = 0; i < numTests; i++) {
