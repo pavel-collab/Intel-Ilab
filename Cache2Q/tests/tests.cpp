@@ -2,7 +2,7 @@
 #include <cassert>
 #include "cache.hpp"
 
-unsigned numTests = 8;
+unsigned numTests = 9;
 
 int main() {
     FILE* ftest;
@@ -10,7 +10,7 @@ int main() {
                                        "utest6.txt", "utest7.txt", "utest8.txt"};
 
 
-    for (int i = 0; i < numTests; i++) {
+    for (unsigned int i = 0; i < numTests; i++) {
         ftest = freopen (nameTests[i], "r", stdin);
         
         unsigned cacheSize = 0;
