@@ -50,7 +50,6 @@ struct Queue {
         // конструктор
         Queue(size_t q_capacity) :
             capacity_(q_capacity) {}
-        ~Queue() {}
 
         // геттер размера очереди
         size_t GetCapacity() {return capacity_;}
@@ -82,9 +81,9 @@ struct Cache2Q {
         // конструктор
         Cache2Q(size_t cache_size) :
             cache_size_(cache_size), 
-            In_(((size_t) trunc(cache_size * 0.2))),
-            Out_(((size_t) trunc(cache_size * 0.2))),
-            Hot_((size_t) (cache_size_ - In_.GetCapacity() - Out_.GetCapacity())), 
+            In_(((size_t) (trunc(cache_size * 0.2) >= 1) ? trunc(cache_size * 0.2) : 1)),
+            Out_(((size_t) (trunc(cache_size * 0.2) >= 1) ? trunc(cache_size * 0.2) : 1)),
+            Hot_((size_t) (cache_size - In_.GetCapacity() - Out_.GetCapacity() >= 1) ? cache_size - In_.GetCapacity() - Out_.GetCapacity() : 1), 
             Map_() {};
         
         ~Cache2Q() {}
@@ -132,11 +131,8 @@ int Cache2Q <Page>::CacheIn(Page page) {
     Map_Iter base = CacheHit(page);
 
     if (base == Map_.end()) {
-        printf("No hit\n");
         if (In_.IsQueueFull()) {
-            printf("In is full\n");
             if (Out_.IsQueueFull()) {
-                printf("Out is full\n");
                 DeletePage(&Out_, Map_.find(Out_.List.back().page_));
             }
             In_.List.back().ChangeQueueType(OUT);
@@ -144,9 +140,6 @@ int Cache2Q <Page>::CacheIn(Page page) {
             List_Iter lstit = In_.List.begin();
             std::advance(lstit, In_.List.size() - 1);
             MovePage(&In_, &Out_, lstit);
-            // In_.size_--;
-            // Out_.size_++;
-            // Out_.List.splice(Out_.List.begin(), In_.List, lstit);
         }
 
         // insert new page to the cache
@@ -162,7 +155,6 @@ int Cache2Q <Page>::CacheIn(Page page) {
         return RESULT_NO_HIT;
     }
 
-    printf("hit!!!\n");
     switch (base->second->queue_t_) {
         case IN: {
             return RESULT_HIT_IN; 
@@ -170,15 +162,11 @@ int Cache2Q <Page>::CacheIn(Page page) {
         }
         case OUT: {
             if (Hot_.IsQueueFull()) {
-                printf("hot is full\n");
                 DeletePage(&Hot_, Map_.find(Hot_.List.back().page_));
             }
             List_Iter lstit = base->second;
             lstit->ChangeQueueType(HOT);
             MovePage(&Out_, &Hot_, lstit);
-            // Out_.size_--;
-            // Hot_.size_++;
-            // Hot_.List.splice(Hot_.List.begin(), Out_.List, lstit);
 
             return RESULT_HIT_OUT;
             break;
@@ -187,7 +175,6 @@ int Cache2Q <Page>::CacheIn(Page page) {
             if (base->second == Hot_.List.begin()) return RESULT_HIT_HOT;
             else {
                 MovePage(&Hot_, &Hot_, Map_.find(page)->second);
-                // Hot_.List.splice(Hot_.List.begin(), Hot_.List, Map_.find(page)->second);
                 return RESULT_HIT_HOT;
             }
             break;

@@ -1,8 +1,9 @@
 cmake_minimum_required (VERSION 3.11)
 project (2QCache LANGUAGES CXX)
 
-set(SRC_PATH "src/main.cpp")
-set(TESTS_PATH "tests/tests.cpp")
+include_directories("include/")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O3")
 
-add_executable(out ${SRC_PATH})
-add_executable(tests ${TESTS_PATH})
+set(SRC_MAIN src/main.cpp)
+
+add_executable (out ${SRC_MAIN})
