@@ -1,4 +1,5 @@
 build
 out
+test
 sundbox.cpp
 .vscode

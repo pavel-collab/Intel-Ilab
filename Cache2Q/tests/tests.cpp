@@ -10,7 +10,7 @@ int main() {
                                        "006.dat", "007.dat", "008.dat", "009.dat"};
 
 
-    for (int i = 0; i < numTests; i++) {
+    for (unsigned int i = 0; i < numTests; i++) {
         ftest = freopen (nameTests[i], "r", stdin);
         
         unsigned cacheSize = 0;
