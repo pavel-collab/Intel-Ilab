@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "cache.hpp"
+#include "../include/cache.hpp"
 
 unsigned numTests = 9;
 
