@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 3.11)
 project (2QCache LANGUAGES CXX)
 
-message(STATUS "OS: ${CMAKE_SYSTEM_NAME}")
+include_directories("include/")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -O3")
 
-add_executable (out main.cpp)
+set(SRC_MAIN src/main.cpp)
+
+add_executable (out ${SRC_MAIN})

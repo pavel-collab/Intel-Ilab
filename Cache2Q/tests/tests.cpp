@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "../include/cache.hpp"
+#include "cache.hpp"
 
 unsigned numTests = 8;
 
@@ -9,12 +9,10 @@ int main() {
     const char* nameTests[numTests] = {"utest1.txt", "utest2.txt", "utest3.txt", "utest4.txt", "utest5.txt",
                                        "utest6.txt", "utest7.txt", "utest8.txt"};
 
-    // std::string str[numTests];
 
     for (int i = 0; i < numTests; i++) {
         ftest = freopen (nameTests[i], "r", stdin);
-        // assert(ftest != nullptr);
-
+        
         unsigned cacheSize = 0;
         unsigned numPages  = 0;
         int id = 0;

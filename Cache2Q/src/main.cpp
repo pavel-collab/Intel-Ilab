@@ -4,7 +4,7 @@
 #include <cassert>       // assert
 #include <cmath>
 
-#include "../include/cache.hpp"
+#include "cache.hpp"
 
 int main() {
     size_t cache_size = 0;
@@ -16,14 +16,12 @@ int main() {
 
     // вводим размер кэша и количество запросов
     std::cin >> cache_size >> N;
-    assert(std::cin.good());
 
     Cache2Q<int> Cache(cache_size);
 
     // обрабатываем запросы в цикле
     while (N-- > 0) {
         std::cin >> id;
-        assert(std::cin.good());
 
         int page = slow_get_page<int, int>(id); 
         
