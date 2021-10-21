@@ -1,3 +1,5 @@
+// #define DEBUG
+
 #include <iostream>
 #include <unordered_map> // Hash Table
 #include <list>          // List
@@ -19,6 +21,12 @@ int main() {
 
     Cache2Q<int> Cache(cache_size);
 
+    #ifdef DEBUG
+    std::cout << "In capacity: " << Cache.In_.GetCapacity() << std::endl;
+    std::cout << "Out capacity: " << Cache.Out_.GetCapacity() << std::endl;
+    std::cout << "Hot capacity: " << Cache.Hot_.GetCapacity() << std::endl;
+    #endif
+
     // обрабатываем запросы в цикле
     while (N-- > 0) {
         std::cin >> id;
@@ -28,6 +36,20 @@ int main() {
         if (Cache.CacheIn(page)) {
             counter++;
         }
+
+        #ifdef DEBUG
+        std::cout << "=============================" << std::endl;
+        std::cout << "In size: " << Cache.In_.size_ << std::endl;
+        std::cout << "In: ";
+        PrintList<int>(Cache.In_.List);
+        std::cout << "In size: " << Cache.Out_.size_ << std::endl;
+        std::cout << "Out: ";
+        PrintList<int>(Cache.Out_.List);
+        std::cout << "In size: " << Cache.Hot_.size_ << std::endl;
+        std::cout << "Hot: ";
+        PrintList<int>(Cache.Hot_.List);
+        std::cout << "=============================" << std::endl;
+        #endif
     }
 
     // выводим в консоль количество хитов

@@ -6,8 +6,8 @@ unsigned numTests = 9;
 
 int main() {
     FILE* ftest;
-    const char* nameTests[numTests] = {"utest1.txt", "utest2.txt", "utest3.txt", "utest4.txt", "utest5.txt",
-                                       "utest6.txt", "utest7.txt", "utest8.txt", "utest9.txt"};
+    const char* nameTests[numTests] = {"001.dat", "002.dat", "003.dat", "004.dat", "005.dat",
+                                       "006.dat", "007.dat", "008.dat", "009.dat"};
 
 
     for (int i = 0; i < numTests; i++) {
