@@ -1,0 +1,45 @@
+#include <iostream>
+#include <unordered_map> // Hash Table
+#include <list>          // List
+#include <cassert>       // assert
+#include <cmath>
+
+#include "../include/perfect_cache.hpp"
+
+int main() {
+    size_t cache_size = 0;
+    size_t N = 0;
+
+    size_t counter = 0;
+    int id = 0;
+
+    std::cout << "Input cache capacity: ";
+    std::cin >> cache_size;
+    assert(cache_size != 0);
+
+    std::cout << "Input inquiry amount: ";
+    std::cin >> N;
+
+    // список запросов
+    int* inquiry_list = (int*) calloc(N, sizeof(int));
+
+    PerfectCache<int> Cache(cache_size);
+
+    // получаем список запросов
+    for (int idx = 0; idx < N; idx++) {
+        std::cin >> id;
+        inquiry_list[idx] = slow_get_page<int, int>(id);
+    }
+
+    for (int idx = 0; idx < N; idx++) {
+        if (Cache.CacheIn(inquiry_list[idx], &(inquiry_list[idx]), N - idx) == RESULT_HIT) {
+            counter++;
+        }        
+    }
+
+    std::cout << "hit amount = " << counter << std::endl;
+
+    free(inquiry_list);
+    
+    return 0;
+}
