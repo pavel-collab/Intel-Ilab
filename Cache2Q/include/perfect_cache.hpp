@@ -31,9 +31,10 @@ struct PerfectCache {
         size_t lists_size_;
 
         // конструктор
-        PerfectCache(size_t cache_capasity) :
-            cache_capacity_(cache_capacity_),
-            lists_size_(0),  
+        PerfectCache(size_t cache_capasity = 3) :
+            cache_capacity_(cache_capasity),
+            lists_size_(0),
+            List (), 
             Map_() {};
         
         ~PerfectCache() {}
@@ -62,35 +63,47 @@ int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_a
     // проверяем, есть ли вставляемая страница в кэше
     if (base != Map_.end()) {
         // если есть -- говорим, что случился хит
+        printf("hit\n");
         return RESULT_HIT;
     }
-
-
     
     // если кэш полон, то начинаем танцы с бубном
+    std::cout << "Cache status = " << IsCacheFull() << std::endl;
+    printf("Cache capacity = %ld, cache size = %ld\n", cache_capacity_, lists_size_);
     if (IsCacheFull()) {
-        
+        printf("cache is full\n");
         List_Iter the_worst = List.begin();
         int poisoned_idx = 0;
+
+        int prossed_el = 0;
 
         // выбираем какую страницу исключить из кэша по алгоритму OPT
         // обрабатываем каждый элемент кэша, если он встречается позже остальных -- запоминаем его
         List_Iter lst_it = List.begin();
+
         while (lst_it++ != List.end()) {
             for (int idx = poisoned_idx; idx < future_iqr_amnt; idx++) {
-                if ((*lst_it == inquiry_list[idx]) && (idx >= poisoned_idx)) {
-                    poisoned_idx = idx;
-                    the_worst = lst_it;
-                    break;
+                if (*lst_it == inquiry_list[idx]) {
+
+                    prossed_el++;
+
+                    if (idx >= poisoned_idx) {
+                        poisoned_idx = idx;
+                        the_worst = lst_it;
+                        break;
+                    }
                 }
             }
         }
 
-        // удаляем "худший элемент"
+        if (prossed_el != cache_capacity_) {
+            the_worst = List.begin();
+            for (int i = 0; i < prossed_el; i++) {
+                the_worst++;
+            }
+        }
 
-        // // если the_worst остался равным нулю, значит выбрасываем их кэша любой элемент (в нашем случае первый)
-        // if (the_worst == nullptr)
-        //     the_worst = List.begin();
+        std::cout << "the worst = " << *the_worst << std::endl;
         
         // удаляем элемент из списка, из хеш-таблицы и уменьшаем количество элементов в кэше
         List.erase(the_worst);
@@ -109,7 +122,7 @@ int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_a
 template <typename Page>
 int PrintList(std::list<Page> List) {
     for (auto i = List.begin(); i != List.end(); i++) {
-        std::cout << i->page_ << " "; 
+        std::cout << *i << " "; 
     }
     std::cout << std::endl;
     return 0;
