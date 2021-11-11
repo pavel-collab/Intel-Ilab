@@ -62,7 +62,7 @@ struct Queue {
 template <typename Page> 
 struct Cache2Q {
     private:
-        size_t cache_size_; // полный размер кэша (сумма размеров очередей)
+        size_t cache_size_; // полный размер кэша
         using List_Iter = typename std::list<ListNode<Page>>::iterator;
         using Map_Iter = typename std::unordered_map<Page, List_Iter>::iterator;
     public:
@@ -81,8 +81,8 @@ struct Cache2Q {
         // конструктор
         Cache2Q(size_t cache_size) :
             cache_size_(cache_size), 
-            In_(((size_t) (trunc(cache_size * 0.2) >= 1) ? trunc(cache_size * 0.2) : 1)),
-            Out_(((size_t) (trunc(cache_size * 0.2) >= 1) ? trunc(cache_size * 0.2) : 1)),
+            In_(((size_t) (trunc(cache_size * 0.25) >= 1) ? trunc(cache_size * 0.25) : 1)),
+            Out_(((size_t) (trunc(cache_size * 0.25) >= 1) ? trunc(cache_size * 0.25) : 1)),
             Hot_((size_t) (cache_size - In_.GetCapacity() - Out_.GetCapacity() >= 1) ? cache_size - In_.GetCapacity() - Out_.GetCapacity() : 1), 
             Map_() {};
         
