@@ -137,7 +137,7 @@ int Cache2Q <Page>::CacheIn(Page page) {
             }
             In_.List.back().ChangeQueueType(OUT);
 
-            List_Iter lstit = In_.List.end()--;
+            List_Iter lstit = --In_.List.end();
             MovePage(&In_, &Out_, lstit);
         }
 
