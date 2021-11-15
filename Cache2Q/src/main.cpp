@@ -6,7 +6,7 @@
 #include <cassert>       // assert
 #include <cmath>
 
-#include "../include/cache.hpp"
+#include "cache.hpp"
 
 int main() {
     size_t cache_size = 0;
