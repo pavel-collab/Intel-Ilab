@@ -42,7 +42,7 @@ struct Queue {
     private:
         size_t capacity_;
     public:
-        size_t size_ = 0;
+        // size_t size_ = 0;
         std::list<ListNode<Page>> List;
 
         // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -55,7 +55,7 @@ struct Queue {
         size_t GetCapacity() {return capacity_;}
         // функция проверяет заполненость очереди
         bool IsQueueFull() {
-            return size_ == GetCapacity();
+            return List.size() >= GetCapacity();
         }
 };
 
@@ -113,15 +113,15 @@ int ListNode<Page>::ChangeQueueType(QT q_type) {
 template <typename Page>
 int Cache2Q <Page>::DeletePage(Queue<Page> *queue, Map_Iter mpit) {
     queue->List.pop_back();
-    queue->size_--;
+    // queue->size_--;
     Map_.erase(mpit);
     return 0;
 }
 
 template <typename Page>
 int Cache2Q <Page>::MovePage(Queue<Page> *q_from, Queue<Page> *q_dst, List_Iter lstit) {
-    q_from->size_--;
-    q_dst->size_++;
+    // q_from->size_--;
+    // q_dst->size_++;
     q_dst->List.splice(q_dst->List.begin(), q_from->List, lstit);
     return 0;
 }
@@ -137,8 +137,7 @@ int Cache2Q <Page>::CacheIn(Page page) {
             }
             In_.List.back().ChangeQueueType(OUT);
 
-            List_Iter lstit = In_.List.begin();
-            std::advance(lstit, In_.List.size() - 1);
+            List_Iter lstit = In_.List.end()--;
             MovePage(&In_, &Out_, lstit);
         }
 
@@ -149,7 +148,7 @@ int Cache2Q <Page>::CacheIn(Page page) {
         // заносим в HT
         ListNode<Page> lst_node = {page, IN};
         In_.List.push_front(lst_node);
-        In_.size_++;
+        // In_.size_++;
 
         Map_.insert({page, In_.List.begin()});
         return RESULT_NO_HIT;
