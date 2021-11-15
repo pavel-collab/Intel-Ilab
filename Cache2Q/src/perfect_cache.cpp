@@ -1,3 +1,5 @@
+// #define DEBUG
+
 #include <iostream>
 #include <unordered_map> // Hash Table
 #include <list>          // List
@@ -6,8 +8,6 @@
 
 #include "perfect_cache.hpp"
 
-//TODO: написать Cmake для идеального кэша и для всего проекта в частности
-//TODO: протестировать идеальный кэш (написать для него тестирующую программу или тесты)
 //TODO: убрать комментарии на русском и лишние комментарии
 
 int main() {
@@ -36,7 +36,9 @@ int main() {
     }
 
     for (int idx = 0; idx < N; idx++) {
-        // PrintList(Cache.List);
+        #ifdef DEBUG
+        PrintList(Cache.List);
+        #endif
         if (Cache.CacheIn(inquiry_list[idx], inquiry_list, N, idx) == RESULT_HIT) {
             counter++;
         }        

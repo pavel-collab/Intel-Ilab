@@ -28,8 +28,6 @@ struct PerfectCache {
         // в хэш-таблице лежат пары: ключ(страница) - итератор списка
         std::unordered_map<Page, List_Iter> Map_;
 
-        // size_t lists_size_;
-
         // конструктор
         PerfectCache(size_t cache_capasity = 3) :
             cache_capacity_(cache_capasity),
@@ -37,8 +35,6 @@ struct PerfectCache {
             List (), 
             Map_() {};
         
-        ~PerfectCache() {}
-
         size_t GetCapacity() {
             return cache_capacity_;
         }
@@ -63,15 +59,11 @@ int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_a
     // проверяем, есть ли вставляемая страница в кэше
     if (base != Map_.end()) {
         // если есть -- говорим, что случился хит
-        // printf("hit\n");
         return RESULT_HIT;
     }
     
     // если кэш полон, то начинаем танцы с бубном
-    // std::cout << "Cache status = " << IsCacheFull() << std::endl;
-    // printf("Cache capacity = %ld, cache size = %ld\n", cache_capacity_, lists_size_);
     if (IsCacheFull()) {
-        // printf("cache is full\n");
         List_Iter the_worst = List.begin();
         int space = 0;
         int flag;
@@ -82,37 +74,28 @@ int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_a
         List_Iter lst_end = List.end();
 
         while (++lst_it != lst_end) {
-
             int count = 0;
-
             for (int idx = cur_idx; idx < future_iqr_amnt; idx++) {
-
                 if (*lst_it == inquiry_list[idx]) {
                     break;
                 }
                 else {
                     count++;
                 }
-
             }
-
             if (count >= space) {
                 space = count;
                 the_worst = lst_it;
             }
         }
-
-        // std::cout << "the worst = " << *the_worst << std::endl;
         
         // удаляем элемент из списка, из хеш-таблицы и уменьшаем количество элементов в кэше
         Map_.erase(Map_.find(*the_worst));
         List.erase(the_worst);
-        // lists_size_--;
     }
 
     // кладем новый элемент на голову списка
     List.push_front(page);
-    // lists_size_++;
     Map_.insert({page, List.begin()});
 
     return RESULT_NO_HIT;
