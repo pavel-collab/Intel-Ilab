@@ -5,6 +5,7 @@ include_directories("include/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -Wall -Wextra -O3")
 
 set(SRC_MAIN src/main.cpp)
+set(SRC_PERFECT src/perfect_cache.cpp)
 
-add_executable (out ${SRC_MAIN})
-
+add_executable (main ${SRC_MAIN})
+add_executable (perfect ${SRC_MAIN})

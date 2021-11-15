@@ -28,12 +28,12 @@ struct PerfectCache {
         // в хэш-таблице лежат пары: ключ(страница) - итератор списка
         std::unordered_map<Page, List_Iter> Map_;
 
-        size_t lists_size_;
+        // size_t lists_size_;
 
         // конструктор
         PerfectCache(size_t cache_capasity = 3) :
             cache_capacity_(cache_capasity),
-            lists_size_(0),
+            // lists_size_(0),
             List (), 
             Map_() {};
         
@@ -44,7 +44,7 @@ struct PerfectCache {
         }
 
         bool IsCacheFull() {
-            return lists_size_==GetCapacity();
+            return List.size() >= GetCapacity();
         }
 
         // проверяем, есть ли совпадение в хэштаблице
@@ -53,67 +53,66 @@ struct PerfectCache {
         }
 
         // на вход подется вставляемая страница, массив запросов, количество элементов в массиве
-        int CacheIn(Page page, Page* inquiry_list, int future_iqr_amnt);
+        int CacheIn(Page page, Page* inquiry_list, int future_iqr_amnt, int cur_idx);
 };
 
 template <typename Page> 
-int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_amnt) {
+int PerfectCache <Page>::CacheIn(Page page, Page* inquiry_list, int future_iqr_amnt, int cur_idx) {
     Map_Iter base = CacheHit(page);
 
     // проверяем, есть ли вставляемая страница в кэше
     if (base != Map_.end()) {
         // если есть -- говорим, что случился хит
-        printf("hit\n");
+        // printf("hit\n");
         return RESULT_HIT;
     }
     
     // если кэш полон, то начинаем танцы с бубном
-    std::cout << "Cache status = " << IsCacheFull() << std::endl;
-    printf("Cache capacity = %ld, cache size = %ld\n", cache_capacity_, lists_size_);
+    // std::cout << "Cache status = " << IsCacheFull() << std::endl;
+    // printf("Cache capacity = %ld, cache size = %ld\n", cache_capacity_, lists_size_);
     if (IsCacheFull()) {
-        printf("cache is full\n");
+        // printf("cache is full\n");
         List_Iter the_worst = List.begin();
-        int poisoned_idx = 0;
-
-        int prossed_el = 0;
+        int space = 0;
+        int flag;
 
         // выбираем какую страницу исключить из кэша по алгоритму OPT
         // обрабатываем каждый элемент кэша, если он встречается позже остальных -- запоминаем его
         List_Iter lst_it = List.begin();
+        List_Iter lst_end = List.end();
 
-        while (lst_it++ != List.end()) {
-            for (int idx = poisoned_idx; idx < future_iqr_amnt; idx++) {
+        while (++lst_it != lst_end) {
+
+            int count = 0;
+
+            for (int idx = cur_idx; idx < future_iqr_amnt; idx++) {
+
                 if (*lst_it == inquiry_list[idx]) {
-
-                    prossed_el++;
-
-                    if (idx >= poisoned_idx) {
-                        poisoned_idx = idx;
-                        the_worst = lst_it;
-                        break;
-                    }
+                    break;
                 }
+                else {
+                    count++;
+                }
+
+            }
+
+            if (count >= space) {
+                space = count;
+                the_worst = lst_it;
             }
         }
 
-        if (prossed_el != cache_capacity_) {
-            the_worst = List.begin();
-            for (int i = 0; i < prossed_el; i++) {
-                the_worst++;
-            }
-        }
-
-        std::cout << "the worst = " << *the_worst << std::endl;
+        // std::cout << "the worst = " << *the_worst << std::endl;
         
         // удаляем элемент из списка, из хеш-таблицы и уменьшаем количество элементов в кэше
-        List.erase(the_worst);
         Map_.erase(Map_.find(*the_worst));
-        lists_size_--;
+        List.erase(the_worst);
+        // lists_size_--;
     }
 
     // кладем новый элемент на голову списка
     List.push_front(page);
-    lists_size_++;
+    // lists_size_++;
     Map_.insert({page, List.begin()});
 
     return RESULT_NO_HIT;

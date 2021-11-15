@@ -4,7 +4,7 @@
 #include <cassert>       // assert
 #include <cmath>
 
-#include "../include/perfect_cache.hpp"
+#include "perfect_cache.hpp"
 
 //TODO: написать Cmake для идеального кэша и для всего проекта в частности
 //TODO: протестировать идеальный кэш (написать для него тестирующую программу или тесты)
@@ -36,8 +36,8 @@ int main() {
     }
 
     for (int idx = 0; idx < N; idx++) {
-        PrintList(Cache.List);
-        if (Cache.CacheIn(inquiry_list[idx], &(inquiry_list[idx]), N - idx) == RESULT_HIT) {
+        // PrintList(Cache.List);
+        if (Cache.CacheIn(inquiry_list[idx], inquiry_list, N, idx) == RESULT_HIT) {
             counter++;
         }        
     }
