@@ -4,6 +4,9 @@
 #include <cassert>       // assert
 #include <cmath>
 
+double In_size_part = 0.25;
+double Out_size_part = 0.25;
+
 enum {
     RESULT_NO_HIT = 0,
     RESULT_HIT_IN,
@@ -81,8 +84,8 @@ struct Cache2Q {
         // конструктор
         Cache2Q(size_t cache_size) :
             cache_size_(cache_size), 
-            In_(((size_t) (trunc(cache_size * 0.25) >= 1) ? trunc(cache_size * 0.25) : 1)),
-            Out_(((size_t) (trunc(cache_size * 0.25) >= 1) ? trunc(cache_size * 0.25) : 1)),
+            In_(((size_t) (trunc(cache_size * In_size_part) >= 1) ? trunc(cache_size * In_size_part) : 1)),
+            Out_(((size_t) (trunc(cache_size * Out_size_part) >= 1) ? trunc(cache_size * Out_size_part) : 1)),
             Hot_((size_t) (cache_size - In_.GetCapacity() - Out_.GetCapacity() >= 1) ? cache_size - In_.GetCapacity() - Out_.GetCapacity() : 1), 
             Map_() {};
         

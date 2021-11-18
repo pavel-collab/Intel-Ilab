@@ -17,12 +17,8 @@ int main() {
     size_t counter = 0;
     int id = 0;
 
-    std::cout << "Input cache capacity: ";
-    std::cin >> cache_size;
+    std::cin >> cache_size >> N;
     assert(cache_size != 0);
-
-    std::cout << "Input inquiry amount: ";
-    std::cin >> N;
 
     // список запросов
     int* inquiry_list = (int*) calloc(N, sizeof(int));
